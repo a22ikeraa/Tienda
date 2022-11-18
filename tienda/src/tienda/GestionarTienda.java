@@ -62,12 +62,10 @@ public class GestionarTienda {
 		ArrayList<Integer> idsProductos = new ArrayList<Integer>();
 		ArrayList<Integer>idsPedido = new ArrayList<Integer>();
 		ArrayList<String>NombreProductos = new ArrayList<String>();
-		Pedido pedido;
 		
 		startConnection();
 		
 		try {
-			
 			//Consegir las ids de los productos
 			PreparedStatement sentencia = connection.prepareStatement(queryConseguirIdProducto);
 			sentencia.setString(1,dni);
@@ -79,14 +77,31 @@ public class GestionarTienda {
 				idsProductos.add(resultSet.getInt("id"));
 			}
 			
+			sentencia = connection.prepareStatement(queryConseguirIdPedido);
+			for(int i = 0 ; i < idsProductos.size() ; i++) {
+				sentencia.setInt(i+1, idsProductos.get(i));
+				
+				resultSet = sentencia.executeQuery();
+				//Almacenar las ids de los pedidos 
+				while(resultSet.next()) {
+					idsPedido.add(resultSet.getInt("idProducto"));
+				}
+			}
 			
-			
+			sentencia = connection.prepareStatement(queryConsegirNombreProducto);
+			for(int i = 0 ; i < idsProductos.size() ; i++) {
+				sentencia.setInt(i+1,idsPedido.get(i));
+				
+				resultSet = sentencia.executeQuery();
+				//Almacenar los nombres de los productos
+				while(resultSet.next()) {
+					NombreProductos.add(resultSet.getString("Nombre"));
+				}
+			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		
 		closeConnection();
+		
 	}
 }

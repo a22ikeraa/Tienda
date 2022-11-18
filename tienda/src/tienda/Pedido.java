@@ -42,7 +42,7 @@ public class Pedido {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Pedidos del usuario con DN: " + dniCliente + "\t\tID Pedido: " + id+"\n");
+		builder.append("Pedidos del usuario con DNI: " + dniCliente +"\n");
 		builder.append("Fecha de pedido: " + fecha+ "\n") ;
 		builder.append("Productos: \n");
 		for(Producto producto : productosPedido) {
